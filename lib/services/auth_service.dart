@@ -14,7 +14,7 @@ class AuthService {
 
   String clientId = dotenv.env['API_42_CLIENT_ID']!;
   String clientSecret = dotenv.env['API_42_CLIENT_SECRET']!;
-  const String redirectUrl = 'appmobile42://callback';
+  const String redirectUrl = 'app://callback';
   const String issuer = 'https://api.intra.42.fr/oauth';
   const String authorizationEndpoint = "$issuer/authorize";
   const String tokenEndpoint = "$issuer/token";
