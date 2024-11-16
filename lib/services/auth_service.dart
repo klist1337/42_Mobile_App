@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class AuthService {
   static final AuthService _singleton = AuthService._internal();
   
-  factory AuthService() {
+  factory AuthService() { 
     return _singleton;
   }
   AuthService._internal();
@@ -32,5 +32,5 @@ class AuthService {
     ),
   );
   return result.accessToken;
-}
+  }
 }

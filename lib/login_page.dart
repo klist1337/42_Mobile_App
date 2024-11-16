@@ -1,6 +1,7 @@
 import 'package:app_mobile_42/home_page.dart';
 import 'package:app_mobile_42/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Loginpage extends StatelessWidget {
@@ -31,13 +32,21 @@ class Loginpage extends StatelessWidget {
                 backgroundColor: const Color(0xFF00BABC)
               ),
               onPressed: () async {
-               final accessToken = await AuthService().authenticate();
-               if (accessToken != null) {
+              try {
+              final accessToken = await AuthService().authenticate();
+              if (accessToken != null) {
                 if (!context.mounted) return;
                 Navigator.pushReplacement(context, 
                 MaterialPageRoute(builder: (context) =>
                 const HomePage()));
                }
+              } on FlutterAppAuthUserCancelledException catch (e) {
+                return;
+              }
+              catch(e) {
+                print("$e");
+              }
+               
               }, 
             child: const Padding(
               padding: EdgeInsets.symmetric(
