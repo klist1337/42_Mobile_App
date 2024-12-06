@@ -1,5 +1,7 @@
+import 'package:app_mobile_42/helper/function.dart';
 import 'package:app_mobile_42/home_page.dart';
 import 'package:app_mobile_42/services/auth_service.dart';
+import 'package:app_mobile_42/services/http_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,8 +35,10 @@ class Loginpage extends StatelessWidget {
               ),
               onPressed: () async {
               try {
-              final accessToken = await AuthService().authenticate();
-              if (accessToken != null) {
+              final AuthorizationTokenResponse? result = await AuthService().authenticate();
+              if (result != null) {
+                await saveToken(result.accessToken!, result.refreshToken!);
+                await HttpServices().setup(bearerToken: result.accessToken);
                 if (!context.mounted) return;
                 Navigator.pushReplacement(context, 
                 MaterialPageRoute(builder: (context) =>
@@ -44,9 +48,8 @@ class Loginpage extends StatelessWidget {
                 return;
               }
               catch(e) {
-                print("$e");
+                return;
               }
-               
               }, 
             child: const Padding(
               padding: EdgeInsets.symmetric(

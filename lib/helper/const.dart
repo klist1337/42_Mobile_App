@@ -1,0 +1,1 @@
+const apiBaseURL = "https://api.intra.42.fr";

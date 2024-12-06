@@ -1,15 +1,31 @@
+import 'package:app_mobile_42/helper/function.dart';
+import 'package:app_mobile_42/home_page.dart';
 import 'package:app_mobile_42/login_page.dart';
+import 'package:app_mobile_42/services/auth_service.dart';
+import 'package:app_mobile_42/services/data_services.dart';
+import 'package:app_mobile_42/services/http_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+  String accessToken = await getToken() ?? "";
+  bool connected = await isConnected();
+  bool isValid = await isTokenValid();
+  await HttpServices().setup(bearerToken: accessToken);
+  runApp(MyApp(isConnected: connected, accessToken: accessToken, isTokenValid: isValid,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({
+  super.key, 
+  required this.isConnected, 
+  required this.accessToken,
+  required this.isTokenValid,
+  });
+  final bool isConnected;
+  final String accessToken;
+  final bool isTokenValid;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,7 +36,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Loginpage(),
+      home:  !isConnected || accessToken.isEmpty ? const Loginpage() : const HomePage() ,
+      //home: const Loginpage(),
     );
   }
 }
