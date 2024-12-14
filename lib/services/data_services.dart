@@ -1,7 +1,6 @@
 import 'package:app_mobile_42/helper/function.dart';
 import 'package:app_mobile_42/services/auth_service.dart';
 import 'package:app_mobile_42/services/http_services.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DataServices {
@@ -76,6 +75,18 @@ class DataServices {
       }
     } catch (e) {
       print("echec de la recuperation du cursus");
+      return null;
+    }
+  }
+  Future<dynamic> getLocation(int userId) async {
+    String path = "/v2/users/$userId/locations";
+    try {
+      final response =  await _httpService.get(path);
+      if (response?.statusCode == 200 || response?.data != null) {
+        return response?.data;
+      }
+    } catch (e) {
+      print("Failed to get user location");
       return null;
     }
   }

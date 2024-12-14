@@ -121,7 +121,15 @@ class _HomePageState extends State<HomePage> {
                                         try {
                                          level = snapshot.data[0]["level"].toString();
                                          saveLevelFunct(level!);
-                                         double percent = (double.parse(level!.split('.')[1]) * 10)/ 100;
+                                         double value = double.parse(level!.split('.')[1]);
+                                          double percent;
+                                          int valueLength = value.toInt().toString().length;
+                                          if (valueLength == 1) {
+                                            percent = value * 10 / 100;
+                                          }
+                                          else {
+                                            percent = value / 100;
+                                          }
                                          return Column(
                                           children: [
                                             const SizedBox(height: 20,),   
@@ -142,7 +150,16 @@ class _HomePageState extends State<HomePage> {
                                         );
                                         } catch (e) {
                                           getlevelFuntion();
-                                          double percent = (double.parse(level!.split('.')[1]) * 10)/ 100;
+                                          double value =  double.parse(level!.split('.')[1]);
+                                          double percent;
+                                          int valueLength = value.toInt().toString().length;
+                                          if (valueLength == 1) {
+                                            percent = value * 10 / 100;
+                                          }
+                                          else {
+                                            percent = value / 100;
+                                            print(percent);
+                                          }
                                           return Column(
                                           children: [
                                             const SizedBox(height: 20,),   
@@ -163,6 +180,26 @@ class _HomePageState extends State<HomePage> {
                                         );
                                         } 
                                       } ),
+                                  const SizedBox(height: 41,),
+                                  FutureBuilder(
+                                    future: DataServices().getLocation(user['id']),
+                                    builder: (context, AsyncSnapshot snapshot) {
+                                      final location = snapshot.data;
+                                      print(location);
+                                      return Container(
+                                        height: 20,
+                                        width: MediaQuery.sizeOf(context).width,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)
+                                          ),
+                                          color: Colors.black,
+                                        ),
+                                        child: const Text("text"),
+                                      );
+                                    }
+                                  )
                                 ],
                               ),
                             ),

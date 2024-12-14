@@ -1,8 +1,6 @@
 import 'package:app_mobile_42/helper/function.dart';
 import 'package:app_mobile_42/home_page.dart';
 import 'package:app_mobile_42/login_page.dart';
-import 'package:app_mobile_42/services/auth_service.dart';
-import 'package:app_mobile_42/services/data_services.dart';
 import 'package:app_mobile_42/services/http_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,9 +9,9 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
   String accessToken = await getToken() ?? "";
   bool connected = await isConnected();
-  bool isValid = await isTokenValid();
+  //bool isValid = await isTokenValid();
   await HttpServices().setup(bearerToken: accessToken);
-  runApp(MyApp(isConnected: connected, accessToken: accessToken, isTokenValid: isValid,));
+  runApp(MyApp(isConnected: connected, accessToken: accessToken,));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,11 +19,9 @@ class MyApp extends StatelessWidget {
   super.key, 
   required this.isConnected, 
   required this.accessToken,
-  required this.isTokenValid,
   });
   final bool isConnected;
   final String accessToken;
-  final bool isTokenValid;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

@@ -19,8 +19,8 @@ class AuthService {
   const String issuer = 'https://api.intra.42.fr/oauth';
   const String authorizationEndpoint = "$issuer/authorize";
   const String tokenEndpoint = "$issuer/token";
-
-  final result = await appAuth.authorizeAndExchangeCode(
+  try {
+     final result = await appAuth.authorizeAndExchangeCode(
     AuthorizationTokenRequest(
       clientId,
       redirectUrl,
@@ -33,6 +33,10 @@ class AuthService {
     ),
   );
   return result;
+  } catch(e) {
+    print(e);
+  }
+ 
   }
 
   Future<String?> refreshAccessToken() async {
