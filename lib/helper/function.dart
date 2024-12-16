@@ -52,3 +52,13 @@ Future<bool> isTokenValid() async {
     String? level = pref.getString("Level");
     return level;
   }
+
+  Future saveInfo(List<String> infos) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setStringList("infos", infos);
+  }
+
+  Future <List<String>?> getInfo() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getStringList("infos");
+  }
