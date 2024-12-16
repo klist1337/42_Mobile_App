@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: Text("No data available"));
           }
           final user = snapshot.data;
-          print(user);
           return FutureBuilder(
             future: DataServices().getUserCoalition(user["id"]),
             builder: (context, AsyncSnapshot snap) {

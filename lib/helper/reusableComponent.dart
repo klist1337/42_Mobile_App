@@ -41,9 +41,10 @@ class DisplayInfo extends StatelessWidget {
             color: Colors.black.withValues(alpha: 0.6)
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Row(
               children: [
+                const SizedBox(width: 20,),
                 const Icon(Icons.wallet,
                   color: Colors.white,),
                 const SizedBox(width: 8,),
@@ -52,6 +53,20 @@ class DisplayInfo extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold
                 ),),
+                SizedBox(width: MediaQuery.sizeOf(context).width * 0.5,),
+                const Text("Ev.P",
+                    style:TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    )),
+                const SizedBox(width: 8),
+                Text(infos![2],
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ) ,),
               ]
             ),
           ),
