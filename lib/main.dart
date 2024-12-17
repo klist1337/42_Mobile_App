@@ -1,6 +1,6 @@
 import 'package:app_mobile_42/helper/function.dart';
-import 'package:app_mobile_42/home_page.dart';
-import 'package:app_mobile_42/login_page.dart';
+import 'package:app_mobile_42/screens/home_page.dart';
+import 'package:app_mobile_42/screens/login_page.dart';
 import 'package:app_mobile_42/services/http_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

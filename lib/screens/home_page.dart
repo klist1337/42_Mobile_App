@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:app_mobile_42/helper/function.dart';
 import 'package:app_mobile_42/helper/reusableComponent.dart';
-import 'package:app_mobile_42/login_page.dart';
+import 'package:app_mobile_42/screens/login_page.dart';
 import 'package:app_mobile_42/services/data_services.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: Text("No data available"));
           }
           final user = snapshot.data;
+          print(user["cursus_users"][1]);
           return FutureBuilder(
             future: DataServices().getUserCoalition(user["id"]),
             builder: (context, AsyncSnapshot snap) {
