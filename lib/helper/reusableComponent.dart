@@ -13,14 +13,7 @@ class DisplayInfo extends StatelessWidget {
           children: [
             const Icon(Icons.desktop_mac,
                   color: Colors.white),
-            const SizedBox(width: 8,),
-            infos?[0] == null ?
-            const Text("unavailable",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold
-                )) :
+            const SizedBox(width: 8,),    
             Text(infos![0],
                 style: const TextStyle(
                   color: Colors.white,

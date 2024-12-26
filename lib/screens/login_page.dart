@@ -2,6 +2,7 @@ import 'package:app_mobile_42/helper/function.dart';
 import 'package:app_mobile_42/screens/home_page.dart';
 import 'package:app_mobile_42/services/auth_service.dart';
 import 'package:app_mobile_42/services/http_services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,22 +35,29 @@ class Loginpage extends StatelessWidget {
                 backgroundColor: const Color(0xFF00BABC)
               ),
               onPressed: () async {
-              try {
-              final AuthorizationTokenResponse? result = await AuthService().authenticate();
-              if (result != null) {
-                await saveToken(result.accessToken!, result.refreshToken!);
-                await HttpServices().setup(bearerToken: result.accessToken);
+              final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+              if (connectivityResult.contains(ConnectivityResult.none)) {
                 if (!context.mounted) return;
-                Navigator.pushReplacement(context, 
-                MaterialPageRoute(builder: (context) =>
-                const HomePage()));
-               }
-              } on FlutterAppAuthUserCancelledException catch (e) {
-                return;
+                showConnectionErrorSnackBar(context);
               }
-              catch(e) {
-                return;
-              }
+              else {
+                try {
+                  final AuthorizationTokenResponse? result = await AuthService().authenticate();
+                    if (result != null) {
+                      await saveToken(result.accessToken!, result.refreshToken!);
+                      await HttpServices().setup(bearerToken: result.accessToken);
+                      if (!context.mounted) return;
+                      Navigator.pushReplacement(context, 
+                      MaterialPageRoute(builder: (context) =>
+                      const HomePage()));
+                    }
+                  } on FlutterAppAuthUserCancelledException catch (e) {
+                    return;
+                  }
+                  catch(e) {
+                    return;
+                  }
+                }            
               }, 
             child: const Padding(
               padding: EdgeInsets.symmetric(
@@ -66,5 +74,22 @@ class Loginpage extends StatelessWidget {
         ),
       ),
     );
+  }
+  void showConnectionErrorSnackBar(BuildContext context) {
+     final snackBar = SnackBar(
+      content: const Row(
+        children: [
+          Icon(Icons.wifi_off, color: Colors.white,),
+          SizedBox(width: 10,),
+          Text("No connection"),
+        ],),
+        backgroundColor: Colors.redAccent,
+        elevation: 10,
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(label: "RETRY", onPressed: () {}),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
