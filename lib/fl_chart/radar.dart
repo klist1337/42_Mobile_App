@@ -25,6 +25,7 @@ class _RadarChartSample1State extends State<RadarChartSample1>
 
   @override
   Widget build(BuildContext context) {
+    final windowWidth = MediaQuery.sizeOf(context).width;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -32,7 +33,7 @@ class _RadarChartSample1State extends State<RadarChartSample1>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AspectRatio(
-            aspectRatio: 2,
+            aspectRatio: windowWidth > 600 ? 4 : 2,
             child: Stack(
               children: [
                 RadarChart(

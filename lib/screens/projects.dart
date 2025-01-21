@@ -27,6 +27,7 @@ class Projects extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: projects.length,
                   itemBuilder: (context, index) {
+                    final mark = projects[index]["final_mark"];
                       return Column(
                         children: [ 
                           projects[index]["cursus_ids"][0] == 21 
@@ -42,9 +43,9 @@ class Projects extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text(projects[index]["final_mark"].toString(),
-                                style: const TextStyle(
-                                  color: Colors.green, 
+                                Text(mark.toString(),
+                                style: TextStyle(
+                                  color: mark >= 50 ? Colors.green : Colors.red,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold
                                 ),)

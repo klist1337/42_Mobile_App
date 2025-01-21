@@ -27,6 +27,22 @@ class DataServices {
     return null;
   }
 
+  Future<dynamic> getSearchUserInfo(String login) async {
+    bool isvalid = await isTokenValid();
+    if (isvalid == false) {
+      String? token = await AuthService().refreshAccessToken();
+      HttpServices().setup(bearerToken: token);
+    }
+    String path = "/v2/users/$login";
+    final response = await _httpService.get(path);
+    if (response?.statusCode == 200 || response?.data != null ) {
+      final data = response?.data;
+      return data;
+    }
+    return null;
+  }
+
+
   Future<dynamic> fetchTokenInfo() async {
     String path = "/oauth/token/info";
     try {
@@ -87,6 +103,19 @@ class DataServices {
       }
     } catch (e) {
       print("Failed to get user location");
+      return null;
+    }
+  }
+  Future<dynamic> getAllUsers(String login) async {
+    String path = "/v2/users/$login";
+    try {
+      final response = await _httpService.get(path);
+      if (response?.statusCode == 200 || response?.data != null) {
+        // print(response?.data);
+        return response?.data;
+      }
+    } catch (e) {
+      print("Failed to get all users");
       return null;
     }
   }
